@@ -6,10 +6,22 @@ pipeline {
     }
 
     stages {
-        stage('Verify Environment') {
-            steps {
-                sh 'node --version'
-            }
+    stage('Verify Environment') {
+        steps {
+            sh 'node --version'
         }
+    }
+
+    stage('Install Dependencies') {
+        steps {
+            sh 'npm ci'
+        }
+    }
+
+    stage('Run Tests') {
+        steps {
+            sh 'npm test'
+        }
+    }
     }
 }
