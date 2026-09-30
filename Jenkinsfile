@@ -15,6 +15,7 @@ pipeline {
                     reuseNode true
                 }
             }
+
             steps {
                 sh 'node --version'
                 sh 'npm --version'
@@ -28,6 +29,7 @@ pipeline {
                     reuseNode true
                 }
             }
+
             steps {
                 sh 'npm ci'
             }
@@ -40,15 +42,14 @@ pipeline {
                     reuseNode true
                 }
             }
+
             steps {
-                steps {
-    sh '''
-        npm test > test-results.log 2>&1
-        result=$?
-        cat test-results.log
-        exit $result
-    '''
-}
+                sh '''
+                    npm test > test-results.log 2>&1
+                    result=$?
+                    cat test-results.log
+                    exit $result
+                '''
             }
         }
 
@@ -59,6 +60,7 @@ pipeline {
                     reuseNode true
                 }
             }
+
             steps {
                 sh 'npm audit --audit-level=high'
             }
@@ -82,6 +84,7 @@ pipeline {
                 ]) {
                     sh '''
                         set +x
+
                         echo "$DOCKER_PASSWORD" | docker login \
                             --username "$DOCKER_USERNAME" \
                             --password-stdin
@@ -92,6 +95,7 @@ pipeline {
             }
         }
     }
+
     post {
         always {
             archiveArtifacts(
